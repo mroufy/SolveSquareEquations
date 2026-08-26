@@ -1,8 +1,10 @@
 #include "defines.h"
 
+#include "plot.h"
 #include "mymath.h"
 #include "solve.h"
 #include "test.h"
+#include "input_fun.h"
 
 
 #include <cassert>
@@ -10,13 +12,21 @@
 #include <cstdio>
 #include <cstring>
 
-int coef_input(double *a, double *b, double *c);
+int regular_solve();
 void output_roots(int root_num, double *x_1, double *x_2);
 
 
 int main(int argc, char *argv[])
 {
-    
+    if (argc > 1 && !strcmp(argv[1], "help"))
+    {
+        printf(C_BLUE "test - to run preprogrammed tests\n"
+               "testfile - to run tests from your file\n"
+               "testadd - to add tests to file\n"
+               "plot - draw graph of the function\n" C_RESET);
+        return 0;
+    }
+
     if (argc > 1 && !strcmp(argv[1], "test"))
     {
         run_tests();
@@ -35,6 +45,22 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+    else if (argc > 2 && !strcmp(argv[1], "plot"))
+    {
+        draw_graph(argv[2]);
+        return 0;
+    }
+
+    else
+    {
+        regular_solve();
+        return 0;
+    }
+}
+
+
+int regular_solve()
+{
     while (1)
     {
         double x_1 = NAN, x_2 = NAN;
@@ -47,44 +73,10 @@ int main(int argc, char *argv[])
         root_num = solve_square_equation(a, b, c, &x_1, &x_2);
 
         output_roots(root_num, &x_1, &x_2);
-    }
-    return 0;
-}
-
-
-int coef_input(double *a, double *b, double *c)
-{
-    assert(a);
-    assert(b);
-    assert(c);
-
-    int scanf_result = 0, tries_count = 0;
-    char n = 0;
-
-    printf("%sEnter coefficients\n%s",
-             C_BLUE, C_RESET);
-
-    while (1)
-    {
-
-        scanf_result = scanf("%lg %lg %lg%c", a, b, c, &n);
-        if (scanf_result == 4 && n == '\n')
-            return 0;
-        else
-        {
-            print_input_error(n);
-            printf("%sInput error. Try again\n%s", C_RED, C_RESET);
-            scanf_result = 0;
-        }
-
-        ++tries_count;
-        if (tries_count >= 10)
-        {
-            printf("%sMax number of tries reached\n%s", C_RED_BOX, C_RESET);
-            return INPUT_ERROR;
-        }
+        return 0;
     }
 }
+
 
 void output_roots(int root_num, double *x_1, double *x_2)
 {
@@ -97,23 +89,32 @@ void output_roots(int root_num, double *x_1, double *x_2)
     switch (root_num)
     {
     case NO_ROOTS:
-        printf("%sNo roots\n%s", C_YELLOW, C_RESET);
+        printf(C_YELLOW "No roots\n" C_RESET);
         break;
     case ONE_ROOT:
-        printf("%sx = %lg\n%s", C_GREEN, *x_1, C_RESET);
+        printf(C_GREEN "x = %lg\n" C_RESET, *x_1);
         
         break;
     case TWO_ROOTS:
-        printf("%sx_1 = %lg, x_2 = %lg\n%s", C_GREEN, *x_1, *x_2, C_RESET);
+        printf(C_GREEN "x_1 = %lg, x_2 = %lg\n" C_RESET, *x_1, *x_2);
         break;
     case INF_ROOTS:
-        printf("%sInfinite amount of roots\n%s", C_GREEN, C_RESET);
+        printf(C_GREEN "Infinite amount of roots\n" C_RESET);
         break;
     default:
-        printf("%sRoot count error\n%s", C_RED_BOX, C_RESET);
+        printf(C_RED_BOX "Root count error\n" C_RESET);
     }
 }
 
+/*
+переделать цвета +
+убрать основную программу из мэйна +
+сделать документацию (doxigen)
+график +
+fclose сделать +
+NAN in textcase
+help +
 
+do study mode
 
-
+*/

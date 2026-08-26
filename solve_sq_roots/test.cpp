@@ -11,37 +11,63 @@
 void run_file_tests(char* file_name)
 {
     FILE* fp = fopen(file_name, "r");
+    if (!fp)
+    {
+        printf(C_RED_BOX "Can't open file\n" C_RESET);
+        return;
+    }
+
     test_case test = {};
-    int scanf_result = fscanf(fp, "%lg %lg %lg %d %lg %lg\n", &test.a, &test.b, &test.c, &test.root_num_ref, &test.x_1ref, &test.x_2ref);
+    int scanf_result = fscanf(fp, "%lg %lg %lg %d %lg %lg\n",
+                                   &test.a, &test.b, &test.c, &test.root_num_ref, &test.x_1ref, &test.x_2ref);
+
     while (scanf_result == 6)
     {
         if (run_one_test(test))
             printf("%sTest completed\n%s", C_GREEN, C_RESET);
-        scanf_result = fscanf(fp, "%lg %lg %lg %d %lg %lg\n", &test.a, &test.b, &test.c, &test.root_num_ref, &test.x_1ref, &test.x_2ref);
+        scanf_result = fscanf(fp, "%lg %lg %lg %d %lg %lg\n",
+                                   &test.a, &test.b, &test.c, &test.root_num_ref, &test.x_1ref, &test.x_2ref);
     }
+
+    if (fclose(fp))
+        printf(C_RED_BOX "Can't close the file\n" C_RESET);
 }
 
 
 int add_test_file(char* file_name)
 {
     FILE* fp = fopen(file_name, "a");
+    if (!fp)
+    {
+        printf(C_RED_BOX "Can't open the file\n" C_RESET);
+        return 0;
+    }
+
     int scanf_result = 0;
     while (1)
     {
         char n = '\0';
         test_case test = {};
-        printf("%sEnter coefficients, number of roots, roots(a b c root_num x_1 x_2)\n%s", C_BLUE, C_RESET);
-        scanf_result = scanf("%lg %lg %lg %d %lg %lg%c", &test.a, &test.b, &test.c, &test.root_num_ref, &test.x_1ref, &test.x_2ref, &n);
+
+        printf(C_BLUE "Enter coefficients, number of roots, roots(a b c root_num x_1 x_2)\n" C_RESET);
+
+        scanf_result = scanf("%lg %lg %lg %d %lg %lg%c",
+                              &test.a, &test.b, &test.c, &test.root_num_ref, &test.x_1ref, &test.x_2ref, &n);
+        
         if (scanf_result == 7 && n == '\n')
         {
-            fprintf(fp, "%lg %lg %lg %d %lg %lg\n", test.a, test.b, test.c, test.root_num_ref, test.x_1ref, test.x_2ref);
+            fprintf(fp, "%lg %lg %lg %d %lg %lg\n",
+                         test.a, test.b, test.c, test.root_num_ref, test.x_1ref, test.x_2ref);
             return 1;
         }
         else
         {
             print_input_error(n);
-            printf("%sInput error. Try again\n%s", C_RED, C_RESET);
+            printf(C_RED "Input error. Try again\n" C_RESET);
         }
+
+    if (fclose(fp))
+        printf(C_RED_BOX "Can't close the file\n" C_RESET);
     }
 }
 
@@ -67,9 +93,9 @@ void run_tests()
     }
 
     if (tests_completed == tests_num)
-        printf("%sAll tests completed %d/%d\n%s", C_GREEN, tests_completed, tests_num, C_RESET);
+        printf(C_GREEN "All tests completed %d/%d\n" C_RESET, tests_completed, tests_num);
     else
-        printf("%sTests completed %d/%d\n%s", C_YELLOW, tests_completed, tests_num, C_RESET);
+        printf(C_YELLOW "Tests completed %d/%d\n" C_RESET, tests_completed, tests_num);
 }
 
 
@@ -83,10 +109,10 @@ int run_one_test(test_case test)
 
     if (root_num != test.root_num_ref || !(compare_double(x_1, test.x_1ref)) || !(compare_double(x_2, test.x_2ref)))
     {
-        printf("%sTest FAILED: a = %lg, b = %lg, c = %lg\n"
+        printf(C_RED "Test FAILED: a = %lg, b = %lg, c = %lg\n"
             "Expected %d roots, x_1 = %lg, x_2 = %lg\n"
-            "Got %d roots, x_1 = %lg, x_2 = %lg\n%s",
-            C_RED, test.a, test.b, test.c, test.root_num_ref, test.x_1ref, test.x_2ref, root_num, x_1, x_2, C_RESET);
+            "Got %d roots, x_1 = %lg, x_2 = %lg\n" C_RESET,
+            test.a, test.b, test.c, test.root_num_ref, test.x_1ref, test.x_2ref, root_num, x_1, x_2);
         return 0;
     }
     else

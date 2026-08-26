@@ -20,9 +20,4 @@ enum number_of_roots
     TWO_ROOTS = 2
 };
 
-void input_clear();
-void print_input_error(char c);
-int compare_double(double a, double n);
-double remove_minus_zero(double n);
-
 #endif
