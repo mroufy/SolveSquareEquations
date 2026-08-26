@@ -5,6 +5,7 @@
 #include "solve.h"
 #include "test.h"
 #include "input_fun.h"
+#include "study.h"
 
 
 #include <cassert>
@@ -20,14 +21,21 @@ int main(int argc, char *argv[])
 {
     if (argc > 1 && !strcmp(argv[1], "help"))
     {
-        printf(C_BLUE "test - to run preprogrammed tests\n"
+        printf(C_BLUE "study - practice in solving equations\n"
+               "test - to run preprogrammed tests\n"
                "testfile - to run tests from your file\n"
                "testadd - to add tests to file\n"
                "plot - draw graph of the function\n" C_RESET);
         return 0;
     }
 
-    if (argc > 1 && !strcmp(argv[1], "test"))
+    else if (argc > 1 && !strcmp(argv[1], "study"))
+    {
+        study_mode();
+        return 0;
+    }
+
+    else if (argc > 1 && !strcmp(argv[1], "test"))
     {
         run_tests();
         return 0;
@@ -115,6 +123,6 @@ fclose сделать +
 NAN in textcase
 help +
 
-do study mode
+do study mode +
 
 */
