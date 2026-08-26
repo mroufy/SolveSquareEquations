@@ -1,5 +1,0 @@
----
-triple:          'arm64-apple-darwin'
-binary-path:     '/Users/fedoryudin/c projects/AI_solving/AI_finding_square_roots'
-relocations:     []
-...
