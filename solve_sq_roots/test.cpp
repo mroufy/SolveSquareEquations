@@ -5,6 +5,7 @@
 #include "input_fun.h"
 #include "solve.h"
 
+#include <cassert>
 #include <cstdio>
 
 void run_file_tests(char* file_name)
@@ -50,27 +51,20 @@ void run_tests()
     int tests_completed = 0;
     const int tests_num = 7;
 
-    test_case test1 = {.a = 1, .b = -2, .c = 1, .root_num_ref = ONE_ROOT, .x_1ref = 1};
-    test_case test2 = {.a = 1, .b = 0, .c = 0, .root_num_ref = ONE_ROOT, .x_1ref = 0};
-    test_case test3 = {.a = 0, .b = 1, .c = 0, .root_num_ref = ONE_ROOT, .x_1ref = 0};
-    test_case test4 = {.a = 0, .b = 0, .c = 1, .root_num_ref = NO_ROOTS};
-    test_case test5 = {.a = 0, .b = 0, .c = 0, .root_num_ref = INF_ROOTS};
-    test_case test6 = {.a = 1, .b = -5, .c = 6, .root_num_ref = TWO_ROOTS, .x_1ref = 2, .x_2ref = 3};
-    test_case test7 = {.a = 1, .b = -13, .c = 42, .root_num_ref = TWO_ROOTS, .x_1ref = 6, .x_2ref = 8};
+    test_case tests_all[tests_num] = 
+    {{.a = 1, .b = -2, .c = 1, .root_num_ref = ONE_ROOT, .x_1ref = 1},
+    {.a = 1, .b = 0, .c = 0, .root_num_ref = ONE_ROOT, .x_1ref = 0},
+    {.a = 0, .b = 1, .c = 0, .root_num_ref = ONE_ROOT, .x_1ref = 0},
+    {.a = 0, .b = 0, .c = 1, .root_num_ref = NO_ROOTS},
+    {.a = 0, .b = 0, .c = 0, .root_num_ref = INF_ROOTS},
+    {.a = 1, .b = -5, .c = 6, .root_num_ref = TWO_ROOTS, .x_1ref = 2, .x_2ref = 3},
+    {.a = 1, .b = -13, .c = 42, .root_num_ref = TWO_ROOTS, .x_1ref = 6, .x_2ref = 7}};
     
-    #define TEST(a) test ## a
-    
-    /*for (int i = 1; i <= tests_num; ++i)
+    for (int i = 0; i < tests_num; i++)
     {
-        tests_completed += run_one_test(TEST(i)); //"test1" -> test1
-    }*/
-    tests_completed += run_one_test(test1);
-    tests_completed += run_one_test(test2);
-    tests_completed += run_one_test(test3);
-    tests_completed += run_one_test(test4);
-    tests_completed += run_one_test(test5);
-    tests_completed += run_one_test(test6);
-    tests_completed += run_one_test(test7);
+        assert(0 <= i && i < tests_num);
+        tests_completed += run_one_test(tests_all[i]);
+    }
 
     if (tests_completed == tests_num)
         printf("%sAll tests completed %d/%d\n%s", C_GREEN, tests_completed, tests_num, C_RESET);
