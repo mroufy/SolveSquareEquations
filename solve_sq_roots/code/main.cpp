@@ -1,11 +1,11 @@
-#include "defines.h"
+#include "../headers/defines.h"
 
-#include "plot.h"
-#include "mymath.h"
-#include "solve.h"
-#include "test.h"
-#include "input_fun.h"
-#include "study.h"
+#include "../headers/plot.h"
+#include "../headers/mymath.h"
+#include "../headers/solve.h"
+#include "../headers/test.h"
+#include "../headers/input_fun.h"
+#include "../headers/study.h"
 
 
 #include <cassert>
@@ -25,7 +25,9 @@ int main(int argc, char *argv[])
                "test - to run preprogrammed tests\n"
                "testfile - to run tests from your file\n"
                "testadd - to add tests to file\n"
-               "plot - draw graph of the function\n" C_RESET);
+               "plot - draw plot of the function\n"
+               "plotwobuf - draw plot w/o buffering\n"
+               "do not type anything if you just want to solve equation\n" C_RESET);
         return 0;
     }
 
@@ -55,7 +57,13 @@ int main(int argc, char *argv[])
 
     else if (argc > 2 && !strcmp(argv[1], "plot"))
     {
-        draw_graph(argv[2]);
+        draw_plot(argv[2]);
+        return 0;
+    }
+
+    else if (argc > 2 && !strcmp(argv[1], "plotwobuf"))
+    {
+        draw_plot_wo_buffering(argv[2]);
         return 0;
     }
 
@@ -73,7 +81,7 @@ int regular_solve()
     {
         double x_1 = NAN, x_2 = NAN;
         double a = NAN, b = NAN, c = NAN;
-        int root_num = 0, scanf_result = 0;
+        int root_num = 0;
 
         if (coef_input(&a, &b, &c) == INPUT_ERROR)
             return INPUT_ERROR;
@@ -114,9 +122,11 @@ void output_roots(int root_num, double *x_1, double *x_2)
     }
 }
 
+
+
 /*
 переделать цвета +
-убрать основную программу из мэйна +
+убрать основную программу из мэйн +
 сделать документацию (doxigen)
 график +
 fclose сделать +

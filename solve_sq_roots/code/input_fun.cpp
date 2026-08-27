@@ -1,5 +1,5 @@
-#include "defines.h"
-#include "input_fun.h"
+#include "../headers/defines.h"
+#include "../headers/input_fun.h"
 
 #include <cassert>
 #include <cctype>
@@ -20,7 +20,7 @@ void print_input_error(char c)
         if (c != ' ' && isdigit(c) == 0 && c != '-' && c != '\0')
             printf(C_RED "%c" C_RESET, c);
 
-        c = getchar();
+        c = char(getchar());
     }
     printf(C_RED " <- not numbers\n" C_RESET);
 }

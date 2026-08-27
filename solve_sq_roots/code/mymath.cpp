@@ -1,5 +1,5 @@
-#include "defines.h"
-#include "mymath.h"
+#include "../headers/defines.h"
+#include "../headers/mymath.h"
 
 #include <cassert>
 #include <cmath>

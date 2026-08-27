@@ -1,9 +1,9 @@
-#include "defines.h"
-#include "test.h"
+#include "../headers/defines.h"
+#include "../headers/test.h"
 
-#include "mymath.h"
-#include "input_fun.h"
-#include "solve.h"
+#include "../headers/mymath.h"
+#include "../headers/input_fun.h"
+#include "../headers/solve.h"
 
 #include <cassert>
 #include <cstdio>

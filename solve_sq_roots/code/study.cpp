@@ -1,9 +1,9 @@
-#include "defines.h"
-#include "study.h"
+#include "../headers/defines.h"
+#include "../headers/study.h"
 
-#include "input_fun.h"
-#include "mymath.h"
-#include "solve.h"
+#include "../headers/input_fun.h"
+#include "../headers/mymath.h"
+#include "../headers/solve.h"
 
 #include <cmath>
 #include <cstdio>

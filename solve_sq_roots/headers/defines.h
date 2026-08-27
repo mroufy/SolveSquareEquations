@@ -6,6 +6,7 @@
 #define C_GREEN "\033[32m"
 #define C_YELLOW "\033[33m"
 #define C_BLUE "\033[34m"
+#define C_PURPLE "\033[35m" /*for debugging primarily*/ 
 #define C_RED_BOX "\033[41m"
 
 const double EPSILON = 1e-6;

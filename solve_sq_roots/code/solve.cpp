@@ -1,7 +1,7 @@
-#include "defines.h"
-#include "solve.h"
+#include "../headers/defines.h"
+#include "../headers/solve.h"
 
-#include "mymath.h"
+#include "../headers/mymath.h"
 
 #include <cassert>
 #include <cmath>
@@ -13,7 +13,7 @@ int solve_square_equation(double a, double b, double c, double *x_1, double *x_2
     assert(x_1);
     assert(x_2);
 
-    if (a == 0)
+    if (compare_double(a, 0))
     {
         return solve_linear_equation(b, c, x_1);
     }
@@ -29,7 +29,7 @@ int solve_full_square_equation(double a, double b, double c, double *x_1, double
     assert(x_1);
     assert(x_2);
 
-    int dis = find_discriminant(a, b, c);
+    double dis = find_discriminant(a, b, c);
 
     if (dis < 0)
     {
@@ -49,7 +49,7 @@ int solve_full_square_equation(double a, double b, double c, double *x_1, double
 }
 
 
-int find_discriminant(double a, double b, double c)
+double find_discriminant(double a, double b, double c)
 {
     return b * b - 4 * a * c;
 }
