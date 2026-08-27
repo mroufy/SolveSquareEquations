@@ -3,15 +3,15 @@
 
 #include <cstdio>
 
-int draw_plot(char* filename);
+int draw_plot(char* file_name);
 
-void plot_output(double a, double b, double c, unsigned width, unsigned height, char* filename);
+void plot_output(double a, double b, double c, unsigned width, unsigned height, char* file_name);
 
-void write_buffer_in_file(char* buffer, char* filename);
+void write_buffer_in_file(char* buffer, char* file_name);
 
-int draw_plot_wo_buffering(char* filename);
+int draw_plot_wo_buffering(char* file_name);
 
-void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsigned height, char *filename);
+void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsigned height, char *file_name);
 
 int is_dot_on_line(double a, double b, double c, int x, int y);
 

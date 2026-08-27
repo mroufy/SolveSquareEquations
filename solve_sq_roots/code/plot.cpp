@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include <cstring>
 
-int draw_plot(char* filename)
+int draw_plot(char* file_name)
 {
     double a = 0, b = 0, c = 0;
     if (coef_input(&a, &b, &c) == INPUT_ERROR)
@@ -20,18 +20,18 @@ int draw_plot(char* filename)
     width_and_height_input(&width, &height);
     //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
 
-    plot_output(a, b, c, width, height, filename);
+    plot_output(a, b, c, width, height, file_name);
 
     return 0;
 }
 
 
-void plot_output(double a, double b, double c, unsigned width, unsigned height, char* filename)
+void plot_output(double a, double b, double c, unsigned width, unsigned height, char* file_name)
 {
     //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
 
     char axis_char = ' ';
-    char* buffer = (char*) calloc(((width + 1) * height), 8);
+    char* buffer = (char*) calloc(((width + 1) * height), sizeof(double));
     unsigned ind = 0;
 
     printf(C_YELLOW "Generating plot...\n" C_RESET);
@@ -57,16 +57,16 @@ void plot_output(double a, double b, double c, unsigned width, unsigned height, 
         buffer[ind] = '\n';
         ind++;
     }
-    write_buffer_in_file(buffer, filename);
+    write_buffer_in_file(buffer, file_name);
 }
 
 
-void write_buffer_in_file(char* buffer, char* filename)
+void write_buffer_in_file(char* buffer, char* file_name)
 {
-    FILE* fp = fopen(filename, "w");
+    FILE* fp = fopen(file_name, "w");
     if (!fp)
     {
-        printf(C_RED_BOX "Can't open the file %s\n" C_RESET, filename);
+        printf(C_RED_BOX "Can't open the file %s\n" C_RESET, file_name);
         return;
     }
 
@@ -76,7 +76,7 @@ void write_buffer_in_file(char* buffer, char* filename)
     fprintf(fp, "%s", buffer);
 
     if (fclose(fp))
-        printf(C_RED_BOX "Can't close the file %s\n" C_RESET, filename);
+        printf(C_RED_BOX "Can't close the file %s\n" C_RESET, file_name);
     else
         printf(C_GREEN "Plot was created successfully\n" C_RESET);
 
@@ -84,7 +84,7 @@ void write_buffer_in_file(char* buffer, char* filename)
 }
 
 
-int draw_plot_wo_buffering(char* filename)
+int draw_plot_wo_buffering(char* file_name)
 {
     double a = 0, b = 0, c = 0;
     if (coef_input(&a, &b, &c) == INPUT_ERROR)
@@ -95,22 +95,22 @@ int draw_plot_wo_buffering(char* filename)
     width_and_height_input(&width, &height);
     //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
 
-    plot_output_wo_buffering(a, b, c, width, height, filename);
+    plot_output_wo_buffering(a, b, c, width, height, file_name);
 
     return 0;
 }
 
 
-void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsigned height, char *filename)
+void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsigned height, char *file_name)
 {
     char axis_char = ' ';
 
     printf(C_YELLOW "Generating plot and writing...\n" C_RESET);
 
-    FILE* fp = fopen(filename, "w");
+    FILE* fp = fopen(file_name, "w");
     if (!fp)
     {
-        printf(C_RED_BOX "Can't open the file %s\n" C_RESET, filename);
+        printf(C_RED_BOX "Can't open the file %s\n" C_RESET, file_name);
         return;
     }
     for (int y = int(height) / 2; y >= -int(height) / 2; y--)
@@ -128,7 +128,7 @@ void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsi
     }
 
     if (fclose(fp))
-        printf(C_RED_BOX "Can't close the file %s\n" C_RESET, filename);
+        printf(C_RED_BOX "Can't close the file %s\n" C_RESET, file_name);
     else
         printf(C_GREEN "Plot was created successfully\n" C_RESET);
 }

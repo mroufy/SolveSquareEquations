@@ -34,7 +34,7 @@ int coef_input(double *a, double *b, double *c)
     int scanf_result = 0, tries_count = 0;
     char n = 0;
 
-    printf(C_BLUE "Enter coefficients\n" C_RESET);
+    printf(C_BLUE "Enter coefficients:\n" C_RESET);
 
     while (1)
     {
@@ -45,14 +45,14 @@ int coef_input(double *a, double *b, double *c)
         else
         {
             print_input_error(n);
-            printf(C_RED "Input error. Try again\n" C_RESET);
+            printf(C_RED "Input error. Try again:\n" C_RESET);
             scanf_result = 0;
         }
 
         ++tries_count;
         if (tries_count >= 10)
         {
-            printf(C_RED_BOX "Max number of tries reached\n" C_RESET);
+            printf(C_RED_BOX "Max number of tries reached!\n" C_RESET);
             return INPUT_ERROR;
         }
     }

@@ -74,17 +74,14 @@ int main(int argc, char *argv[])
 
 
 /*
-переделать цвета +
-убрать основную программу из мэйн +
-сделать документацию (doxigen)
-график +
-fclose сделать +
 
-NAN in textcase
-testadd rework
+сделать документацию (doxygen)
 
-help +
+NAN in textcase +
+testadd rework +
 
-do study mode +
+scan_root_num норм ли так писать?
+
+add input error in print_input_error
 
 */
