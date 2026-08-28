@@ -10,8 +10,10 @@
 #include <cstdio>
 #include <cstdlib>
 
+
 void run_file_tests(char* file_name)
 {
+    assert(file_name);
     FILE* fp = fopen(file_name, "r");
     if (!fp)
     {
@@ -38,6 +40,7 @@ void run_file_tests(char* file_name)
 
 int add_test_file(char* file_name)
 {
+    assert(file_name);
     unsigned tests_cnt = 0;
     printf(C_BLUE "How much tests would you like to add?\n" C_RESET);
 
@@ -54,11 +57,11 @@ int add_test_file(char* file_name)
 
         printf(C_BLUE "Enter number of roots (enter \"-1\" for infinite amount of roots):\n" C_RESET);
         
-        scan_root_num(tests[ind]);
+        scan_root_num(&tests[ind].root_num_ref);
         
         //printf("%d\n", tests[ind].root_num_ref);
 
-        input_roots(tests[ind]);
+        input_roots(tests[ind].root_num_ref, &tests[ind].x_1ref, &tests[ind].x_2ref);
     }
 
     write_tests_in_file(tests, file_name, tests_cnt);
@@ -71,6 +74,7 @@ void scan_tests_count(unsigned* tests_cnt)
 {
     assert(tests_cnt);
     char n = '\0';
+    
     while (!(scanf("%u%c", tests_cnt, &n) == 2 && n == '\n'))
         {
             print_input_error(n);
@@ -79,11 +83,12 @@ void scan_tests_count(unsigned* tests_cnt)
 }
 
 
-void scan_root_num(test_case test)
+void scan_root_num(int* root_num_ref)
 {
+    assert(root_num_ref);
     char n = '\0';
-    while (!(scanf("%d%c", &test.root_num_ref, &n) == 2 && n == '\n'
-           && INF_ROOTS <= test.root_num_ref && test.root_num_ref <= TWO_ROOTS)) /*????? */
+    while (!(scanf("%d%c", root_num_ref, &n) == 2 && n == '\n'
+           && INF_ROOTS <= *root_num_ref && *root_num_ref <= TWO_ROOTS)) /*????? */
         {
             print_input_error(n);
             printf(C_RED "Input error. Try again:\n" C_RESET);
@@ -91,48 +96,61 @@ void scan_root_num(test_case test)
 }
 
 
-void input_roots(test_case test)
+void input_roots(int root_num_ref, double* x_1ref, double* x_2ref)
 {
+    assert(x_1ref);
+    assert(x_2ref);
     char n = '\0';
-    switch (test.root_num_ref)
+    switch (root_num_ref)
         {
+            case TWO_ROOTS:
+                printf(C_BLUE "Enter these two roots:\n" C_RESET);
+                while (!(scanf("%lg %lg%c", x_1ref, x_2ref, &n) == 3 && n == '\n'))
+                {
+                    print_input_error(n);
+                    printf(C_RED "Input error. Try again:\n" C_RESET);
+                }
+                my_sort(x_1ref, x_2ref);
+                break;
             
             case ONE_ROOT:
                 printf(C_BLUE "Enter this single root:\n" C_RESET);
-                while (!(scanf("%lg%c", &test.x_1ref, &n) == 2 && n == '\n'))
+                while (!(scanf("%lg%c", x_1ref, &n) == 2 && n == '\n'))
                 {
                     print_input_error(n);
                     printf(C_RED "Input error. Try again:\n" C_RESET);
                 }
-                test.x_2ref = NAN;
+                *x_2ref = NAN;
+                break;
+            
+            case NO_ROOTS:
+                *x_1ref = NAN;
+                *x_2ref = NAN;
                 break;
 
-            case TWO_ROOTS:
-                printf(C_BLUE "Enter these two roots:\n" C_RESET);
-                while (!(scanf("%lg %lg%c", &test.x_1ref, &test.x_2ref, &n) == 3 && n == '\n'))
-                {
-                    print_input_error(n);
-                    printf(C_RED "Input error. Try again:\n" C_RESET);
-                }
+            case INF_ROOTS:
+                *x_1ref = NAN;
+                *x_2ref = NAN;
                 break;
 
             default:
-                test.x_1ref = NAN;
-                test.x_2ref = NAN;
+                printf(C_RED_BOX "Number of roots = %d\n" C_RESET, root_num_ref);
+                assert(0);
         }
 }
 
 
 void write_tests_in_file(test_case tests[], char* file_name, unsigned tests_cnt)
 {
+    assert(file_name);
     FILE* fp = fopen(file_name, "a");
     if (!fp)
     {
-        printf(C_RED_BOX "Can't open the file\n" C_RESET);
+        printf(C_RED_BOX "Can't open the file %s\n" C_RESET, file_name);
         return;
     }
 
-    printf(C_YELLOW "Writing...\n" C_RESET);
+    printf(C_YELLOW "Writing in %s...\n" C_RESET, file_name);
 
     for(unsigned ind = 0; ind < tests_cnt; ind++)
         print_structure_testcase(tests[ind], fp);
@@ -196,5 +214,6 @@ int run_one_test(test_case test)
 
 void print_structure_testcase(test_case test, FILE* fp)
 {
+    //printf("%d %lg %lg\n", test.root_num_ref, test.x_1ref, test.x_2ref);
     fprintf(fp, "%lg %lg %lg %d %lg %lg\n", test.a, test.b, test.c, test.root_num_ref, test.x_1ref, test.x_2ref);
 }

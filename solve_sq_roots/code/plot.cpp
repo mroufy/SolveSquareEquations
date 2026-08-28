@@ -11,6 +11,8 @@
 
 int draw_plot(char* file_name)
 {
+    assert(file_name);
+
     double a = 0, b = 0, c = 0;
     if (coef_input(&a, &b, &c) == INPUT_ERROR)
             return INPUT_ERROR;
@@ -28,6 +30,8 @@ int draw_plot(char* file_name)
 
 void plot_output(double a, double b, double c, unsigned width, unsigned height, char* file_name)
 {
+    assert(file_name);
+    
     //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
 
     char axis_char = ' ';
@@ -38,12 +42,12 @@ void plot_output(double a, double b, double c, unsigned width, unsigned height, 
 
     for (int y = int(height) / 2; y >= -int(height) / 2; y--)
     {
-        //printf("%u\n", ind);
+        //printf(C_PURPLE "%u\n" C_RESET, ind); //
         //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
 
         for (int x = -int(width) / 2; x <= int(width) / 2; x++)
         {
-            //printf("x = %d, width = %u\n", x, width);
+            //printf(C_PURPLE "x = %d, width = %u\n" C_RESET, x, width);
             if (is_dot_on_line(a, b, c, x, y))
                 buffer[ind] = '#';
             else if (is_dot_on_axis(x, y, &axis_char))
@@ -63,6 +67,9 @@ void plot_output(double a, double b, double c, unsigned width, unsigned height, 
 
 void write_buffer_in_file(char* buffer, char* file_name)
 {
+    assert(buffer);
+    assert(file_name);
+
     FILE* fp = fopen(file_name, "w");
     if (!fp)
     {
@@ -70,7 +77,7 @@ void write_buffer_in_file(char* buffer, char* file_name)
         return;
     }
 
-    printf(C_YELLOW "Writing...\n" C_RESET);
+    printf(C_YELLOW "Writing in %s...\n" C_RESET, file_name);
 
     //printf(C_PURPLE "%s" C_RESET, buffer);
     fprintf(fp, "%s", buffer);
@@ -86,6 +93,8 @@ void write_buffer_in_file(char* buffer, char* file_name)
 
 int draw_plot_wo_buffering(char* file_name)
 {
+    assert(file_name);
+
     double a = 0, b = 0, c = 0;
     if (coef_input(&a, &b, &c) == INPUT_ERROR)
             return INPUT_ERROR;
@@ -103,6 +112,8 @@ int draw_plot_wo_buffering(char* file_name)
 
 void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsigned height, char *file_name)
 {
+    assert(file_name);
+
     char axis_char = ' ';
 
     printf(C_YELLOW "Generating plot and writing...\n" C_RESET);
@@ -152,6 +163,7 @@ int is_dot_on_line(double a, double b, double c, int x, int y)
 char is_dot_on_axis(int x, int y, char* axis_char)
 {
     assert(axis_char);
+
     if (x == 0 && y == 0)
     {
         *axis_char = 'O';
@@ -177,6 +189,9 @@ char is_dot_on_axis(int x, int y, char* axis_char)
 
 void width_and_height_input(unsigned* width, unsigned* height)
 {
+    assert(width);
+    assert(height);
+
     char n = ' ';
     int scanf_result = 0;
 

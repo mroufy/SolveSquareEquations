@@ -29,7 +29,7 @@ int solve_full_square_equation(double a, double b, double c, double *x_1, double
     assert(x_1);
     assert(x_2);
 
-    double dis = find_discriminant(a, b, c);
+    double dis = b * b - 4 * a * c;
 
     if (dis < 0)
     {
@@ -46,12 +46,6 @@ int solve_full_square_equation(double a, double b, double c, double *x_1, double
         *x_2 = (-b + sqrt(dis)) / (2 * a);
         return TWO_ROOTS;
     }
-}
-
-
-double find_discriminant(double a, double b, double c)
-{
-    return b * b - 4 * a * c;
 }
 
 

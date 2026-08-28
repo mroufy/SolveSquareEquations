@@ -5,6 +5,13 @@
 #include "../headers/test.h"
 #include "../headers/study.h"
 
+#include "default_solving.cpp"
+#include "plot.cpp"
+#include "test.cpp"
+#include "study.cpp"
+#include "input_fun.cpp"
+#include "mymath.cpp"
+#include "solve.cpp"
 
 #include <cassert>
 #include <cstdio>
@@ -13,6 +20,8 @@
 
 int main(int argc, char *argv[])
 {
+    assert(argv);
+
     if (argc > 1 && !strcmp(argv[1], "help"))
     {
         printf(C_BLUE "study - practice in solving equations\n"
@@ -75,7 +84,7 @@ int main(int argc, char *argv[])
 
 /*
 
-сделать документацию (doxygen)
+create documentation (doxygen)
 
 NAN in textcase +
 testadd rework +
@@ -84,4 +93,5 @@ scan_root_num норм ли так писать?
 
 add input error in print_input_error
 
+refactor all code
 */
