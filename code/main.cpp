@@ -96,11 +96,11 @@ int main(int argc, char *argv[])
 void help_output()
 {
     printf(C_BLUE "study - practice in solving equations\n"
-               "testauto - to run preprogrammed tests\n"
-               "test - to run tests from your file\n"
-               "testadd - add tests to file\n"
-               "plot - draw plot of the function\n"
-               "plotwobuf - draw plot w/o buffering\n"
+               "testauto - run preprogrammed tests\n"
+               "test <filename> - to run tests from your file\n"
+               "testadd <filename> - add tests to file\n"
+               "plot <filename> - draw plot of the function\n"
+               "plotwobuf <filename> - draw plot w/o buffering\n"
                "or do not type anything if you just want to solve equation\n" C_RESET);
 }
 
