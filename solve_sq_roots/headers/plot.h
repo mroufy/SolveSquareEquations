@@ -1,3 +1,9 @@
+/*!
+    \file
+
+    \brief File contains prototypes of functions for plot.cpp
+*/
+
 #ifndef PLOT_H
 #define PLOT_H
 
@@ -17,6 +23,6 @@ int is_dot_on_line(double a, double b, double c, int x, int y);
 
 char is_dot_on_axis(int x, int y, char* axis_char);
 
-void width_and_height_input(unsigned* width, unsigned* height);
+int width_and_height_input(unsigned* width, unsigned* height);
 
 #endif

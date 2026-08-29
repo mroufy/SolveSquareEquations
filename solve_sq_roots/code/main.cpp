@@ -1,3 +1,8 @@
+/*!
+    \file
+
+    \brief Main decides in which mode program will run and help mode to help user with choosing mode.
+*/
 #include "../headers/defines.h"
 
 #include "../headers/default_solving.h"
@@ -17,20 +22,26 @@
 #include <cstdio>
 #include <cstring>
 
+void help_output();
 
+
+/*!
+    \brief Main
+
+    \brief Main chooses mode that program will run in by using command-line arguments
+
+    \param[in] argc number of command-line arguments
+    \param[in] argv array of command-line arguments
+
+    \return 0
+*/
 int main(int argc, char *argv[])
 {
     assert(argv);
 
     if (argc > 1 && !strcmp(argv[1], "help"))
     {
-        printf(C_BLUE "study - practice in solving equations\n"
-               "testauto - to run preprogrammed tests\n"
-               "test - to run tests from your file\n"
-               "testadd - add tests to file\n"
-               "plot - draw plot of the function\n"
-               "plotwobuf - draw plot w/o buffering\n"
-               "or do not type anything if you just want to solve equation\n" C_RESET);
+        help_output();
         return 0;
     }
 
@@ -78,20 +89,31 @@ int main(int argc, char *argv[])
 }
 
 
+/*!
+    \brief Prints commands that user can type in command-line arguments
+    to choose mode that program will run in
+*/
+void help_output()
+{
+    printf(C_BLUE "study - practice in solving equations\n"
+               "testauto - to run preprogrammed tests\n"
+               "test - to run tests from your file\n"
+               "testadd - add tests to file\n"
+               "plot - draw plot of the function\n"
+               "plotwobuf - draw plot w/o buffering\n"
+               "or do not type anything if you just want to solve equation\n" C_RESET);
+}
+
+
+
 
 
 
 
 /*
-
-create documentation (doxygen)
-
-NAN in textcase +
-testadd rework +
+do main with switch and enum
 
 scan_root_num норм ли так писать?
-
-add input error in print_input_error
 
 refactor all code
 */

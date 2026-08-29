@@ -1,3 +1,9 @@
+/*!
+    \file
+    \brief Solve functions
+    
+    This file contains functions for solving square equations.
+*/
 #include "../headers/defines.h"
 #include "../headers/solve.h"
 
@@ -7,7 +13,21 @@
 #include <cmath>
 
 
+/*!
+    \defgroup solve_sq Solve square equation
 
+    \brief Solves square equation
+*/
+/*!
+    \ingroup solve_sq
+
+    \brief Solves any square equations
+
+    \param[in] a, b, c coefficient of an equation
+    \param[out] x_1, x_2 roots of an equation
+
+    \return number of roots
+*/
 int solve_square_equation(double a, double b, double c, double *x_1, double *x_2)
 {
     assert(x_1);
@@ -23,6 +43,17 @@ int solve_square_equation(double a, double b, double c, double *x_1, double *x_2
     }
 }
 
+
+/*!
+    \ingroup solve_sq
+    
+    \brief Solves only full square equations
+
+    \param[in] a, b, c coefficient of an equation
+    \param[out] x_1, x_2 roots of an equation
+
+    \return number of roots
+*/
 
 int solve_full_square_equation(double a, double b, double c, double *x_1, double *x_2)
 {
@@ -49,6 +80,16 @@ int solve_full_square_equation(double a, double b, double c, double *x_1, double
 }
 
 
+/*!
+    \ingroup solve_sq
+    
+    \brief Solves linear equations
+
+    \param[in] k, b coefficient of an equation kx + b = 0
+    \param[out] x_1 root of an equation
+    
+    \return number of roots
+*/
 int solve_linear_equation(double k, double b, double *x_1)
 {
     assert(x_1);

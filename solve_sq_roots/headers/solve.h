@@ -1,3 +1,9 @@
+/*!
+    \file
+
+    \brief File contains prototypes of functions for solve.cpp
+*/
+
 #ifndef SOLVE_H
 #define SOLVE_H
 

@@ -1,3 +1,8 @@
+/*!
+    \file
+
+    \brief File contains functions for creating and printing plot in a file
+*/
 #include "../headers/defines.h"
 #include "../headers/plot.h"
 
@@ -9,6 +14,30 @@
 #include <cstdlib>
 #include <cstring>
 
+/*!
+    \defgroup draw_plot_buf Draw plot with buffering
+
+    \brief Generates a plot in a buffer, and outputs it in a file
+
+    \warning Can't generate a plot bigger than ~40000x40000
+*/
+/*!
+    \ingroup draw_plot_buf
+
+    \brief Draws a plot (Links the group)
+
+    This function gets coefficients a, b, c from input line, 
+    gets width and height of a plot, 
+    generates plot with function (y = ax^2 + bx + c) in buffer, 
+    writes buffer in a file with name that it gets in arguments.
+
+    \param [in] file_name name of a file to output plot
+
+    \return INPUT_ERROR if maximum of attempts for input reached
+    \return Else returns 0
+
+    \warning Can't generate a plot bigger than ~40000x40000
+*/
 int draw_plot(char* file_name)
 {
     assert(file_name);
@@ -28,6 +57,15 @@ int draw_plot(char* file_name)
 }
 
 
+/*!
+    \ingroup draw_plot_buf
+
+    \brief Creates plot in a buffer and outputs it in a file with name that it gets in arguments
+
+    \param [in] a, b, c coefficients
+    \param [in] width, height proportions of a plot
+    \param [in] file_name name of a file to output a plot
+*/
 void plot_output(double a, double b, double c, unsigned width, unsigned height, char* file_name)
 {
     assert(file_name);
@@ -35,7 +73,8 @@ void plot_output(double a, double b, double c, unsigned width, unsigned height, 
     //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
 
     char axis_char = ' ';
-    char* buffer = (char*) calloc(((width + 1) * height), sizeof(double));
+    char* buffer = (char*) calloc(((width + 1) * height), //(width + 1) because of symbol '\n' at the end
+                             sizeof(double));
     unsigned ind = 0;
 
     printf(C_YELLOW "Generating plot...\n" C_RESET);
@@ -47,7 +86,6 @@ void plot_output(double a, double b, double c, unsigned width, unsigned height, 
 
         for (int x = -int(width) / 2; x <= int(width) / 2; x++)
         {
-            //printf(C_PURPLE "x = %d, width = %u\n" C_RESET, x, width);
             if (is_dot_on_line(a, b, c, x, y))
                 buffer[ind] = '#';
             else if (is_dot_on_axis(x, y, &axis_char))
@@ -57,7 +95,7 @@ void plot_output(double a, double b, double c, unsigned width, unsigned height, 
 
             ind++;
         }
-        //strcat(buffer, "\n");
+
         buffer[ind] = '\n';
         ind++;
     }
@@ -65,6 +103,14 @@ void plot_output(double a, double b, double c, unsigned width, unsigned height, 
 }
 
 
+/*!
+    \ingroup draw_plot_buf
+
+    \brief Writes list of chars in file with name that it gets in arguments.
+
+    \param [in] buffer array of chars with a plot in it (program clears buffer in the end)
+    \param [in] file_name name of a file to output a plot
+*/
 void write_buffer_in_file(char* buffer, char* file_name)
 {
     assert(buffer);
@@ -91,6 +137,27 @@ void write_buffer_in_file(char* buffer, char* file_name)
 }
 
 
+/*!
+    \defgroup draw_plot_wo_buf Draw plot without buffering
+
+    \brief Generates a plot in a file without any buffering
+*/
+/*!
+    \ingroup draw_plot_wo_buf
+
+    \brief Draws a plot without buffering
+
+    This function gets coefficients a, b, c from input line, 
+    gets width and height of a plot, 
+    generates plot with function (y = ax^2 + bx + c) in a file with name that it gets in arguments.
+
+    \param [in] file_name name of a file to output a plot
+
+    \return INPUT_ERROR if maximum of attempts for input reached
+    \return Else returns 0
+
+    \warning Program is constantly working with a file while it creating a plot
+*/
 int draw_plot_wo_buffering(char* file_name)
 {
     assert(file_name);
@@ -110,6 +177,17 @@ int draw_plot_wo_buffering(char* file_name)
 }
 
 
+/*!
+    \ingroup draw_plot_wo_buf
+
+    \brief Generates plot in a file with name that it gets in arguments
+
+    \param [in] a, b, c coefficients
+    \param [in] width, height proportions of a plot
+    \param [in] file_name name of a file to output a plot
+
+    \warning Program is constantly working with a file while it creating a plot
+*/
 void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsigned height, char *file_name)
 {
     assert(file_name);
@@ -124,6 +202,7 @@ void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsi
         printf(C_RED_BOX "Can't open the file %s\n" C_RESET, file_name);
         return;
     }
+
     for (int y = int(height) / 2; y >= -int(height) / 2; y--)
     {
         for (int x = -int(width) / 2; x <= int(width) / 2; x++)
@@ -145,13 +224,27 @@ void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsi
 }
 
 
+/*!
+    \brief Checks if dot(x; y) on a line of function
+
+    Checks if range of results of a function for [x - delta_x; x + delta_x] contents y.
+
+    \param [in] a, b, c coefficients
+    \param [in] x, y dot coordinates
+
+    \return 1 if on a line
+    \return 0 if not
+*/
 int is_dot_on_line(double a, double b, double c, int x, int y)
 {
     const double delta_x = 0.5;
+
     double arg = x;
-    /*calculating y near x*/
+
+    /*calculating equation near x*/
     arg += delta_x;
     double res_1 = a * (arg * arg) + b * arg + c;
+
     arg -= 2 * delta_x;
     double res_2 = a * (arg * arg) + b * arg + c;
 
@@ -160,6 +253,19 @@ int is_dot_on_line(double a, double b, double c, int x, int y)
 }
 
 
+/*!
+    \brief Checks if dot(x; y) is on an axis
+
+    Checks if x == 0 or y == 0 and returns axis symbol
+
+    \param [in] x, y dot coordinates
+    \param [out] axis_char axis symbol
+
+    \return 'O' - for cross of axis
+    \return '-' - for x axis
+    \return '|' - for y axis
+    \return ' ' - if not on axis
+*/
 char is_dot_on_axis(int x, int y, char* axis_char)
 {
     assert(axis_char);
@@ -187,31 +293,39 @@ char is_dot_on_axis(int x, int y, char* axis_char)
 }
 
 
-void width_and_height_input(unsigned* width, unsigned* height)
+/*!
+    \brief Gets width and height from input line
+
+    \param [out] width, height proportions of a plot
+
+    \return INPUT_ERROR if number of tries reached MAX_TRIES_COUNT = 10
+    \return else returns 0
+*/
+int width_and_height_input(unsigned* width, unsigned* height)
 {
     assert(width);
     assert(height);
 
     char n = ' ';
-    int scanf_result = 0;
 
     printf(C_BLUE "Enter width and height of the graph:\n" C_RESET);
-    while (1)
+
+    int scanf_result = 0;
+
+    for (unsigned tries_count = 0; tries_count <= MAX_TRIES_COUNT; tries_count++)
     {
         scanf_result = scanf("%u %u%c", width, height, &n);
 
         if (scanf_result == 3 && n == '\n')
-            return;
-        /*else if (*width <= 0 || *height <= 0)
-        {
-            printf(C_RED "Width and height can't be zero or below. Try again:\n" C_RESET);
-            scanf_result = 0;
-        }*/
+            return 0;
+        
         else
         {
             print_input_error(n);
-            printf(C_RED "Input error. Try again\n" C_RESET);
             scanf_result = 0;
         }
     }
+
+    printf(C_RED_BOX "Max number of tries reached!\n" C_RESET);
+    return INPUT_ERROR;
 }

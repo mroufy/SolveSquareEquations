@@ -1,3 +1,9 @@
+/*!
+    \file
+
+    \brief File contains prototypes of functions for test.cpp
+*/
+
 #ifndef TEST_H
 #define TEST_H
 
