@@ -21,8 +21,10 @@
 */
 const double EPSILON = 1e-6;
 
-
-unsigned const MAX_TRIES_COUNT = 10;
+/*!
+    \brief MAX_TRIES_COUNT — is the number of attempts available to the user before the program stops him
+*/
+const unsigned MAX_TRIES_COUNT = 10;
 
 
 /*!

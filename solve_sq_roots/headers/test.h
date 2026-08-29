@@ -9,6 +9,9 @@
 
 #include <cstdio>
 
+/*!
+    \brief The `test_case` structure is used to store variables for testing the solution to a square equation
+*/
 struct test_case
 {
     double a, b, c;
