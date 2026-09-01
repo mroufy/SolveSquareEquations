@@ -82,6 +82,7 @@ int check_root_num(int root_num_ref)
             {
                 printf(C_YELLOW "Nope! Try again:\n" C_RESET);
                 input_clear_if_no_n(n);
+                n = '\0';
                 scanf_result = 0;
                 root_num = INPUT_ERROR;
             }
@@ -140,6 +141,7 @@ int check_roots(int root_num, double x_1ref, double x_2ref)
                 {
                     printf(C_YELLOW "Nope! Try again:\n" C_RESET);
                     input_clear_if_no_n(n);
+                    n = '\0';
                     scanf_result = 0;
                     x_1 = NAN;
                 }
@@ -169,6 +171,7 @@ int check_roots(int root_num, double x_1ref, double x_2ref)
                 {
                     printf(C_YELLOW "Nope! Try again:\n" C_RESET);
                     input_clear_if_no_n(n);
+                    n = '\0';
                     scanf_result = 0;
                     x_1 = NAN;
                     x_2 = NAN;
