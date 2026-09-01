@@ -75,6 +75,12 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+    //else if (argc > 2 && !strcmp(argv[1], "plotonly"))
+    //{
+    //    plot_only(argv[2]);
+    //    return 0;
+    //}
+
     else if (argc > 2 && !strcmp(argv[1], "plotwobuf"))
     {
         draw_plot_wo_buffering(argv[2]);
@@ -103,17 +109,3 @@ void help_output()
                "plotwobuf <filename> - draw plot w/o buffering\n"
                "or do not type anything if you just want to solve equation\n" C_RESET);
 }
-
-
-
-
-
-
-
-/*
-do main with switch and enum
-
-scan_root_num норм ли так писать?
-
-refactor all code
-*/

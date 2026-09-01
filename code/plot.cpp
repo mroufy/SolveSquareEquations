@@ -7,12 +7,160 @@
 #include "../headers/plot.h"
 
 #include "../headers/input_fun.h"
+//#include "../headers/mymath.h"
 
 #include <cassert>
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
+
+///*!
+//    \defgroup plot Plot
+//
+//    \brief
+//*/
+///*!
+//    \ingroup plot
+//
+//    \brief
+//
+//    \param [in] file_name name of a file with a plot
+//*/
+//int plot_only(char* file_name)
+//{
+//    assert(file_name);
+//
+//    double a = 0, b = 0, c = 0;
+//    if (coef_input(&a, &b, &c) == INPUT_ERROR)
+//            return INPUT_ERROR;
+//
+//    unsigned width = 0, height = 0;
+//
+//    width_and_height_input(&width, &height);
+//    //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
+//
+//    char* buffer = (char*) calloc(((width + 1) * height), //(width + 1) because of symbol '\n' at the end
+//                             sizeof(double));
+//
+//    generate_blank_plot(width, height, buffer);
+//
+//    draw_function(a, b, c, width, height, buffer);
+//
+//    write_buffer_in_file(buffer, file_name);
+//
+//    return 0;
+//}
+//
+//
+///*!
+//    \ingroup plot
+//
+//    \brief Generates blank lines in a buffer for further filling
+//
+//    \param [in] width, height dimensions of a plot
+//    \param [in, out] buffer array of chars with a plot in it (program clears buffer in the end)
+//*/
+//void generate_blank_plot(unsigned width, unsigned height, char* buffer)
+//{
+//    assert(buffer);
+//
+//    int ind = 0;
+//
+//    for (int y = int(height) / 2; y >= -int(height) / 2; y--)
+//    {
+//        for (int x = -int(width) / 2; x <= int(width) / 2; x++) // rewrite
+//        {
+//            buffer[ind] = ' ';
+//
+//            ind++;
+//        }
+//
+//        buffer[ind] = '\n';
+//        ind++;
+//    }
+//}
+//
+//
+///*!
+//    \ingroup plot
+//
+//    \brief Draws function in buffer with clear plot without anything
+//
+//    \param [in] a, b, c coefficients
+//    \param [in] width, height dimensions of a plot
+//    \param [in, out] buffer array of chars with a plot in it (program clears buffer in the end)
+//*/
+//void draw_function(double a, double b, double c, unsigned width, unsigned height, char* buffer)
+//{
+//    double y_old = find_y(a, b, c, - (int) width / 2 - 1);
+//    double y = 0;
+//
+//    for (int x = - (int) width / 2; x <= (int) width / 2; x++)
+//    {
+//        y = find_y(a, b, c, x);
+//
+//        draw_line_for_x(x, y_old, y, width, height, buffer);
+//        y_old = y;
+//    }
+//}
+//
+//
+///*!
+//    \ingroup plot
+//
+//    \brief finds an y value for quadratic function for one x value
+//
+//    \param [in] a, b, c coefficients
+//    \param [in] x argument of the function
+//
+//    \return y value
+//*/
+//double find_y(double a, double b, double c, int x)
+//{
+//    return a * (x * x) + b * x + c;
+//}
+//
+//
+///*!
+//    \ingroup plot
+//
+//    \brief 
+//*/
+//void draw_line_for_x(int x, double y_old, double y, unsigned width, unsigned height, char* buffer)
+//{
+//    int ind = 0;
+//
+//    my_sort(&y_old, &y);
+//
+//    check_for_plot_range(&y_old, height);
+//    check_for_plot_range(&y, height);
+//
+//    for (int y_current = (int) y_old; y_current <= (int) y; y_current++)
+//    {
+//        
+//        ind = ((int) height / 2 - y_current) * ((int) width + 1) * (x + (int) width / 2);
+//        buffer[ind] = '#';
+//    }
+//}
+//
+//
+///*!
+//    \ingroup plot
+//
+//    \brief The function checks whether y lies on the graph and replaces it with the extreme value present on the graph
+//    if not value stays the same
+//
+//    \param [in, out] y changes in depend of plot dimensions
+//    \param [in] height used to decide whether y is lying on the graph or not
+//*/
+//void check_for_plot_range(double* y, int height);
+//{
+//    if (-(int) height / 2)
+//}
+
+
 
 /*!
     \defgroup draw_plot_buf Draw plot with buffering
@@ -63,7 +211,7 @@ int draw_plot(char* file_name)
     \brief Creates plot in a buffer and outputs it in a file with name that it gets in arguments
 
     \param [in] a, b, c coefficients
-    \param [in] width, height proportions of a plot
+    \param [in] width, height dimensions of a plot
     \param [in] file_name name of a file to output a plot
 */
 void plot_output(double a, double b, double c, unsigned width, unsigned height, char* file_name)
@@ -104,8 +252,6 @@ void plot_output(double a, double b, double c, unsigned width, unsigned height, 
 
 
 /*!
-    \ingroup draw_plot_buf
-
     \brief Writes list of chars in file with name that it gets in arguments.
 
     \param [in] buffer array of chars with a plot in it (program clears buffer in the end)
@@ -183,7 +329,7 @@ int draw_plot_wo_buffering(char* file_name)
     \brief Generates plot in a file with name that it gets in arguments
 
     \param [in] a, b, c coefficients
-    \param [in] width, height proportions of a plot
+    \param [in] width, height dimensions of a plot
     \param [in] file_name name of a file to output a plot
 
     \warning Program is constantly working with a file while it creating a plot
@@ -296,7 +442,7 @@ char is_dot_on_axis(int x, int y, char* axis_char)
 /*!
     \brief Gets width and height from input line
 
-    \param [out] width, height proportions of a plot
+    \param [out] width, height dimensions of a plot
 
     \return INPUT_ERROR if number of tries reached MAX_TRIES_COUNT = 10
     \return else returns 0

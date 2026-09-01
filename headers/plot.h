@@ -7,7 +7,15 @@
 #ifndef PLOT_H
 #define PLOT_H
 
-#include <cstdio>
+//int plot_only(char* file_name);
+//
+//void generate_blank_plot(unsigned width, unsigned height, char* buffer);
+//
+//void draw_function(double a, double b, double c, unsigned width, unsigned height, char* buffer);
+//
+//double find_y(double a, double b, double c, int x);
+//
+//void draw_line_for_x(int x, double y_old, double y, unsigned width, unsigned height, char* buffer);
 
 int draw_plot(char* file_name);
 
