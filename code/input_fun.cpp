@@ -38,10 +38,12 @@ void input_clear()
 
     \param [in] c symbol that it gets
 */
-void input_clear_if_no_n(char c)
+void input_clear_if_no_newline(char* c)
 {
-    if (c != '\n')
+    assert(c);
+    if (*c != '\n')
         input_clear();
+    *c = '\0';
 }
 
 

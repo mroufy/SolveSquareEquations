@@ -9,7 +9,7 @@
 
 void input_clear();
 
-void input_clear_if_no_n(char c);
+void input_clear_if_no_newline(char* c);
 
 void print_input_error(char c);
 
