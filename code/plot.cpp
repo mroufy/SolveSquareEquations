@@ -36,10 +36,10 @@
 //    if (coef_input(&a, &b, &c) == INPUT_ERROR)
 //            return INPUT_ERROR;
 //
-//    unsigned width = 0, height = 0;
+//    int width = 0, height = 0;
 //
 //    width_and_height_input(&width, &height);
-//    //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
+//    //printf(C_PURPLE "width = %d, height = %d\n" C_RESET, width, height);
 //
 //    char* buffer = (char*) calloc(((width + 1) * height), //(width + 1) because of symbol '\n' at the end
 //                             sizeof(double));
@@ -62,15 +62,15 @@
 //    \param [in] width, height dimensions of a plot
 //    \param [in, out] buffer array of chars with a plot in it (program clears buffer in the end)
 //*/
-//void generate_blank_plot(unsigned width, unsigned height, char* buffer)
+//void generate_blank_plot(int width, int height, char* buffer)
 //{
 //    assert(buffer);
 //
 //    int ind = 0;
 //
-//    for (int y = int(height) / 2; y >= -int(height) / 2; y--)
+//    for (int y = height / 2; y >= - height / 2; y--)
 //    {
-//        for (int x = -int(width) / 2; x <= int(width) / 2; x++) // rewrite
+//        for (int x = - width / 2; x <= width  / 2; x++) // rewrite
 //        {
 //            buffer[ind] = ' ';
 //
@@ -92,12 +92,12 @@
 //    \param [in] width, height dimensions of a plot
 //    \param [in, out] buffer array of chars with a plot in it (program clears buffer in the end)
 //*/
-//void draw_function(double a, double b, double c, unsigned width, unsigned height, char* buffer)
+//void draw_function(double a, double b, double c, int width, int height, char* buffer)
 //{
-//    double y_old = find_y(a, b, c, - (int) width / 2 - 1);
+//    double y_old = find_y(a, b, c, - width / 2 - 1);
 //    double y = 0;
 //
-//    for (int x = - (int) width / 2; x <= (int) width / 2; x++)
+//    for (int x = - width / 2; x <= width / 2; x++)
 //    {
 //        y = find_y(a, b, c, x);
 //
@@ -128,7 +128,7 @@
 //
 //    \brief 
 //*/
-//void draw_line_for_x(int x, double y_old, double y, unsigned width, unsigned height, char* buffer)
+//void draw_line_for_x(int x, double y_old, double y, int width, int height, char* buffer)
 //{
 //    int ind = 0;
 //
@@ -140,7 +140,7 @@
 //    for (int y_current = (int) y_old; y_current <= (int) y; y_current++)
 //    {
 //        
-//        ind = ((int) height / 2 - y_current) * ((int) width + 1) * (x + (int) width / 2);
+//        ind = (height / 2 - y_current) * (width + 1) * (x + width / 2);
 //        buffer[ind] = '#';
 //    }
 //}
@@ -157,7 +157,8 @@
 //*/
 //void check_for_plot_range(double* y, int height);
 //{
-//    if (-(int) height / 2)
+//    if (- height / 2 > y || y > height / 2)
+
 //}
 
 
@@ -194,10 +195,10 @@ int draw_plot(char* file_name)
     if (coef_input(&a, &b, &c) == INPUT_ERROR)
             return INPUT_ERROR;
 
-    unsigned width = 0, height = 0;
+    int width = 0, height = 0;
 
     width_and_height_input(&width, &height);
-    //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
+    //printf(C_PURPLE "width = %d, height = %d\n" C_RESET, width, height);
 
     plot_output(a, b, c, width, height, file_name);
 
@@ -214,25 +215,25 @@ int draw_plot(char* file_name)
     \param [in] width, height dimensions of a plot
     \param [in] file_name name of a file to output a plot
 */
-void plot_output(double a, double b, double c, unsigned width, unsigned height, char* file_name)
+void plot_output(double a, double b, double c, int width, int height, char* file_name)
 {
     assert(file_name);
     
-    //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
+    //printf(C_PURPLE "width = %d, height = %d\n" C_RESET, width, height);
 
     char axis_char = ' ';
-    char* buffer = (char*) calloc(((width + 1) * height), //(width + 1) because of symbol '\n' at the end
+    char* buffer = (char*) calloc((size_t) ((width + 1) * height), //(width + 1) because of symbol '\n' at the end
                              sizeof(double));
     unsigned ind = 0;
 
     printf(C_YELLOW "Generating plot...\n" C_RESET);
 
-    for (int y = int(height) / 2; y >= -int(height) / 2; y--)
+    for (int y = height / 2; y >= - height / 2; y--)
     {
         //printf(C_PURPLE "%u\n" C_RESET, ind); //
-        //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
+        //printf(C_PURPLE "width = %d, height = %d\n" C_RESET, width, height);
 
-        for (int x = -int(width) / 2; x <= int(width) / 2; x++)
+        for (int x = - width / 2; x <= width / 2; x++)
         {
             if (is_dot_on_line(a, b, c, x, y))
                 buffer[ind] = '#';
@@ -312,10 +313,10 @@ int draw_plot_wo_buffering(char* file_name)
     if (coef_input(&a, &b, &c) == INPUT_ERROR)
             return INPUT_ERROR;
 
-    unsigned width = 0, height = 0;
+    int width = 0, height = 0;
 
     width_and_height_input(&width, &height);
-    //printf(C_PURPLE "width = %u, height = %u\n" C_RESET, width, height);
+    //printf(C_PURPLE "width = %d, height = %d\n" C_RESET, width, height);
 
     plot_output_wo_buffering(a, b, c, width, height, file_name);
 
@@ -334,7 +335,7 @@ int draw_plot_wo_buffering(char* file_name)
 
     \warning Program is constantly working with a file while it creating a plot
 */
-void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsigned height, char *file_name)
+void plot_output_wo_buffering(double a, double b, double c, int width, int height, char *file_name)
 {
     assert(file_name);
 
@@ -349,9 +350,9 @@ void plot_output_wo_buffering(double a, double b, double c, unsigned width, unsi
         return;
     }
 
-    for (int y = int(height) / 2; y >= -int(height) / 2; y--)
+    for (int y = height / 2; y >= - height / 2; y--)
     {
-        for (int x = -int(width) / 2; x <= int(width) / 2; x++)
+        for (int x = - width / 2; x <= width / 2; x++)
         {
             if (is_dot_on_line(a, b, c, x, y))
                 fprintf(fp, "#");
@@ -447,7 +448,7 @@ char is_dot_on_axis(int x, int y, char* axis_char)
     \return INPUT_ERROR if number of tries reached MAX_TRIES_COUNT = 10
     \return else returns 0
 */
-int width_and_height_input(unsigned* width, unsigned* height)
+int width_and_height_input(int* width, int* height)
 {
     assert(width);
     assert(height);
@@ -460,15 +461,23 @@ int width_and_height_input(unsigned* width, unsigned* height)
 
     for (unsigned tries_count = 0; tries_count <= MAX_TRIES_COUNT; tries_count++)
     {
-        scanf_result = scanf("%u %u%c", width, height, &n);
-
+        scanf_result = scanf("%d %d%c", width, height, &n);
         if (scanf_result == 3 && n == '\n')
             return 0;
         
+        else if (*width < 0 || *height < 0)
+        {
+            printf("height and width can't be below zero\n");
+            input_clear();
+            scanf_result = 0;
+            n = '\0';
+        }
+
         else
         {
             print_input_error(n);
             scanf_result = 0;
+            n = '\0';
         }
     }
 
